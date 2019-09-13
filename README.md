@@ -4,9 +4,9 @@
 Title: Corgi Carousel<br>
 Type: Morning Exercise<br>
 Creator: Jerrica Bobadilla<br>
-Adapted By: Carlos Godoy<br/>
 Adapted From: Madeline O'Moore<br>
-Competencies: CSS, HTML, jQuery
+Adapted By: Carlos Godoy<br/>
+Competencies: CSS, HTML, JavaScript
 
 ---
 
@@ -14,7 +14,7 @@ Competencies: CSS, HTML, jQuery
 
 ![](https://imgur.com/pq7zXBJ.png)
 
-Carousels are essentially slideshows used to cycle through a series of content. Today, we'll be building a very simple one to cycle through a set of images using HTML/CSS/jQuery.
+Carousels are essentially slideshows used to cycle through a series of content. Today, we'll be building a very simple one to cycle through a set of images using HTML/CSS/JavaScript.
 
 ## Setup
 
@@ -27,7 +27,7 @@ Starter code has been provided for you with all the files linked together and th
 
 Before we can move onto the javascript file to give our carousel buttons some functionality, we need to hide all content of the carousel except the very first one. This way, the user only sees the first image when they first load the page.
 
-1. In the `css/style.css` file, hide all the images in the carousel by adding `display: none` to `.carousel-images img`
+1. In the `css/style.css` file, hide all the images in the carousel by adding `display: none;` to `.carousel-images img`
 1. Show just the first image in the carousel by adding:
   ```
   .carousel-images img:first-of-type {
@@ -36,67 +36,71 @@ Before we can move onto the javascript file to give our carousel buttons some fu
   ```
    > :dog: See more on [:first-of-type selector](https://css-tricks.com/almanac/selectors/f/first-of-type/)
 
- ## JQUERY
-
-##### First, don't forget to include the document ready function!
+ ## JavaScript
 
 ##### Now, let's just get our "next" button working
 
-
- 1. Add event listener/handler onto our 'next' button
+ 1. Grab the next button element
+ 2. Add event listener onto our 'next' button, and remember to add 'event.preventDefault()' to stop the page from reloading when we click the button.
 
   ```
-   $('.next').on('click', () => {
-    // stuff will go here
-   }
-   ```
+  const next = document.querySelector('.next');
+
+  next.addEventListener('click', (event) => {
+    event.preventDefault();
+
+  })
+  ```
 1. Keep track of what image is currently showing by setting a global index counter variable:
   `let currentImgIndex = 0;`
-1. Back inside the event handler for our next class, select the currently showing carousel image with:  
-  `$('.carousel-images').children().eq(currentImgIndex)`
-1. Hide that currently showing carousel image by tacking on `.css('display', 'none')`
-1. Increment the currentImgIndex so that we cycle to the next image: `currentImgIndex++`
-1. Show the new currentImgIndex image by using: `$('.carousel-images').children().eq(currentImgIndex).css('display', 'block')`
-> :dog: Read more on the [.children](https://api.jquery.com/children/) and [.eq](https://api.jquery.com/eq-selector/) jQuery methods by sifting through the docs!
+1. We will have to keep track of the image that we switch from so let's make another global variable:
+  `let previousImgIndex = 0;`
+1. Create a variable that will hold all of the images with the class "images":
+  `const images = document.getElementsByClassName('images');`
+1. Inside the event listener for our "next" class, set previousImgIndex to currentImgIndex, and increment      currentImgIndex by 1.
+1. Next, inside the event listener for our "next" class, select the currently showing carousel image with:  
+  `images[previousImageIndex]`
+1. Hide that currently showing carousel image by tacking on `.style.display = 'none';`
+1. Show the new currentImgIndex image by using: `images[currentImgIndex].style.display = 'block'`
 
 
 ##### Great, now our next button works and we can cycle through all the images -- but then it breaks when we reach the last one! Let's fix that!
 
 
-1. Define another global variable named `highestIndex` so we can count the highest index of images we have in our carousel by using: `$('.carousel-images').children().length - 1`
-    - :red_circle: Remember! `.length` gives us an exact count of how long an array is, but indexes in JavaScript start counting from 0, so we need to account for that by subtracting 1 from the value .length gives us
-1. Back inside our event handler for our next class, let's write an if/else statement so that if we go above the amount of images we have, it'll reset the currentImgIndex back to the first one
+1. Back inside our event listener, let's make an if statement to check whether currentImgIndex is greater than or equal to the length of our images array.
+1. Inside the if statmement, make it that if we go above the amount of images we have, it'll reset the currentImgIndex back to the first one. (index of the first image in our images array)
     - :red_circle: Remember to watch where you place this if/else statement! Should it go before you hide the current image or after?
   ```
-   if(currentImgIndex < highestIndex) {
-    currentImgIndex ++
-   } else {
-    currentImgIndex = 0
-   }
+   if(currentImgIndex < images.length) {
+    currentImgIndex = 0;
+   } 
   ```
 
 ##### Now let's do the same thing for the "previous" button!
 
-1. Add the event handler:
+1. Add the event listener:
   ```
-   $('.previous').on('click', () => {
-    // stuff will go here
-   }
+  prev.addEventListener('click', (event) => {
+    event.preventDefault();
+    //stuff will go here
+  })
   ```
 1. Add the hide/show code like we did for the next button:
   ```
-  $('.carousel-images').children().eq(currentImgIndex).css('display', 'none')
-  $('.carousel-images').children().eq(currentImgIndex).css('display', 'block')
+  images[previousImgIndex].style.display = 'none';
+  images[currentImgIndex].style.display = 'block';
   ```
-1. For our previous button, we want to _decrement_ the image index this time. So, write an if/else statment that says, as long as currentImgIndex is greater than 0, we can keep decrementing. But once it hits 0, reset the currentImgIndex back to the _last_ image index:
+1. For our previous button, we want to _decrement_ the image index this time. So, write an if statement that says, as long as currentImgIndex is greater than 0, we can keep decrementing. But if it is less than 0, reset the currentImgIndex back to the _last_ image index:
     - :red_circle: Remember again to watch where you place this!
   ```
   if(currentImgIndex > 0) {
     currentImgIndex --
   } else {
-    currentImgIndex = highestIndex
+    currentImgIndex = images.length - 1;
   }
   ```
+  - :red_circle: Remember the first index in an array is 0, so we have to specify currentImgIndex to become the LAST image's index.
+
 
 ## BONUS
 
