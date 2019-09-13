@@ -69,7 +69,7 @@ Before we can move onto the javascript file to give our carousel buttons some fu
 
 1. Back inside our event listener, let's make an if statement to check whether currentImgIndex is greater than or equal to the length of our images array.
 1. Inside the if statmement, make it that if we go above the amount of images we have, it'll reset the currentImgIndex back to the first one. (index of the first image in our images array)
-    - :red_circle: Remember to watch where you place this if/else statement! Should it go before you hide the current image or after?
+    - :red_circle: Remember to watch where you place this if statement! Should it go before you hide the current image or after?
   ```
    if(currentImgIndex < images.length) {
     currentImgIndex = 0;
