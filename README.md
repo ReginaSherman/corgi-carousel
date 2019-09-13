@@ -40,14 +40,14 @@ Before we can move onto the javascript file to give our carousel buttons some fu
 
 ##### Now, let's just get our "next" button working
 
- 1. Grab the next button element
- 2. Add event listener onto our 'next' button, and remember to add 'event.preventDefault()' to stop the page from reloading when we click the button.
+ 1. Grab the next button element.
+ 2. Add event listener onto our 'next' button.
 
   ```
   const next = document.querySelector('.next');
 
-  next.addEventListener('click', (event) => {
-    event.preventDefault();
+  next.addEventListener('click', () => {
+    //stuff will go here
 
   })
   ```
@@ -71,7 +71,7 @@ Before we can move onto the javascript file to give our carousel buttons some fu
 1. Inside the if statmement, make it that if we go above the amount of images we have, it'll reset the currentImgIndex back to the first one. (index of the first image in our images array)
     - :red_circle: Remember to watch where you place this if statement! Should it go before you hide the current image or after?
   ```
-   if(currentImgIndex < images.length) {
+   if(currentImgIndex >= images.length) {
     currentImgIndex = 0;
    } 
   ```
@@ -80,8 +80,7 @@ Before we can move onto the javascript file to give our carousel buttons some fu
 
 1. Add the event listener:
   ```
-  prev.addEventListener('click', (event) => {
-    event.preventDefault();
+  prev.addEventListener('click', () => {
     //stuff will go here
   })
   ```
@@ -93,11 +92,9 @@ Before we can move onto the javascript file to give our carousel buttons some fu
 1. For our previous button, we want to _decrement_ the image index this time. So, write an if statement that says, as long as currentImgIndex is greater than 0, we can keep decrementing. But if it is less than 0, reset the currentImgIndex back to the _last_ image index:
     - :red_circle: Remember again to watch where you place this!
   ```
-  if(currentImgIndex > 0) {
-    currentImgIndex --
-  } else {
+  if(currentImgIndex < 0) {
     currentImgIndex = images.length - 1;
-  }
+  } 
   ```
   - :red_circle: Remember the first index in an array is 0, so we have to specify currentImgIndex to become the LAST image's index.
 
